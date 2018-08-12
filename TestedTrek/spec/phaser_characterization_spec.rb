@@ -20,23 +20,24 @@ describe "phasers" do
         expect(@wg).to have_received(:write_line)
           .with("Insufficient energy to fire phasers!")
     end
-#
+
 #     describe "when Klingon out of range" do
-#         var outOfRange
-#         var energyToFire = 1000
+#         var out_of_range
+#         var energy_to_fire = 1000
 #         beforeEach(function() {
-#             outOfRange = game.maxPhaserRange + 1
-#             ui.target = new Klingon(outOfRange)
-#             ui.commandParameter = energyToFire
-#             game.processCommand(ui)
+#             out_of_range = game.MAX_PHASER_RANGE + 1
+#             ui.target = new Klingon(out_of_range)
+#             ui.commandParameter = energy_to_fire
+#             game.fire_weapon(ui)
 #         end
 #
 #         it "reports out-of-range" do
-#             expect(ui.writeLine).toHaveBeenCalledWith("Klingon out of range of phasers at " + outOfRange + " sectors...")
+#             expect(@wg).to have_received(:write_line)
+  # .with("Klingon out of range of phasers at " + out_of_range + " sectors...")
 #         end
 #
 #         it "still subtracts the energy" do
-#             expect(game.e).toBe(energyBefore - energyToFire)
+#             expect(game.e).toBe(energyBefore - energy_to_fire)
 #         end
 #     end
 #
@@ -49,12 +50,14 @@ describe "phasers" do
 #             ui.commandParameter = 1000
 #             spyOn(game, "generator").and.returnValue(0)
 #
-#             game.processCommand(ui)
+#             game.fire_weapon(ui)
 #         end
 #
 #         it "reports hit and destroyed" do
-#             expect(ui.writeLine).toHaveBeenCalledWith("Phasers hit Klingon at 2000 sectors with 500 units")
-#             expect(ui.writeLine).toHaveBeenCalledWith("Klingon destroyed!")
+#             expect(@wg).to have_received(:write_line)
+  # .with("Phasers hit Klingon at 2000 sectors with 500 units")
+#             expect(@wg).to have_received(:write_line)
+  # .with("Klingon destroyed!")
 #         end
 #
 #         it "subtracts energy" do
@@ -72,12 +75,14 @@ describe "phasers" do
 #             ui.commandParameter = 50
 #             spyOn(game, "generator").and.returnValue(0)
 #
-#             game.processCommand(ui)
+#             game.fire_weapon(ui)
 #         end
 #
 #         it "reports damage" do
-#             expect(ui.writeLine).toHaveBeenCalledWith("Phasers hit Klingon at 2000 sectors with 25 units")
-#             expect(ui.writeLine).toHaveBeenCalledWith("Klingon has 175 remaining")
+#             expect(@wg).to have_received(:write_line)
+  # .with("Phasers hit Klingon at 2000 sectors with 25 units")
+#             expect(@wg).to have_received(:write_line)
+  # .with("Klingon has 175 remaining")
 #         end
 #
 #         it "subtracts energy" do
@@ -85,19 +90,20 @@ describe "phasers" do
 #         end
 #     end
 #
-#
 #     describe "a defect when firing zero" do
 #         beforeEach(function() {
 #             ui.target = new Klingon(2000, 200)
 #             ui.commandParameter = 0
 #             spyOn(game, "generator").and.returnValue(0)
 #
-#             game.processCommand(ui)
+#             game.fire_weapon(ui)
 #         end
 #
 #         it "reports miscalculated damage!" do
-#             expect(ui.writeLine).toHaveBeenCalledWith("Phasers hit Klingon at 2000 sectors with 1 units")
-#             expect(ui.writeLine).toHaveBeenCalledWith("Klingon has 199 remaining")
+#             expect(@wg).to have_received(:write_line)
+  # .with("Phasers hit Klingon at 2000 sectors with 1 units")
+#             expect(@wg).to have_received(:write_line)
+  # .with("Klingon has 199 remaining")
 #         end
 #
 #         it "mistakenly doesn't subtract that one unit" do
