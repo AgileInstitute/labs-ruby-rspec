@@ -1,4 +1,5 @@
 require "game"
+require "klingon"
 require "untouchables/web_gadget"
 
 describe "phasers" do
@@ -7,6 +8,7 @@ describe "phasers" do
         @game = Game.new
         @energy_before = @game.e
         @wg = instance_double(WebGadget, write_line: nil )
+        allow(@wg).to receive(:variable).with("target")
     end
 
     it "should complain with insufficient energy when not available" do
@@ -21,36 +23,37 @@ describe "phasers" do
           .with("Insufficient energy to fire phasers!")
     end
 
-#     describe "when Klingon out of range" do
-#         var out_of_range
-#         var energy_to_fire = 1000
-#         beforeEach(function() {
-#             out_of_range = game.MAX_PHASER_RANGE + 1
-#             ui.target = new Klingon(out_of_range)
-#             ui.commandParameter = energy_to_fire
-#             game.fire_weapon(ui)
-#         end
-#
-#         it "reports out-of-range" do
-#             expect(@wg).to have_received(:write_line)
-  # .with("Klingon out of range of phasers at " + out_of_range + " sectors...")
-#         end
-#
-#         it "still subtracts the energy" do
-#             expect(game.e).toBe(energyBefore - energy_to_fire)
-#         end
-#     end
+    describe "when Klingon out of range" do
+      energy_to_fire = 1000
+
+      before(:each) do
+        @out_of_range = Game::MAX_PHASER_RANGE + 1
+        allow(@wg).to receive(:variable).with("target")
+          .and_return(Klingon.new(@out_of_range))
+        allow(@wg).to receive(:parameter).and_return(energy_to_fire)
+        @game.fire_weapon(@wg)
+      end
+
+        it "reports out-of-range" do
+            expect(@wg).to have_received(:write_line)
+              .with("Klingon out of range of phasers at #{@out_of_range} sectors...")
+        end
+
+        it "still subtracts the energy" do
+            expect(@game.e).to equal(@energy_before - energy_to_fire)
+        end
+    end
 #
 #     describe "when Klingon destroyed by sufficient strike" do
 #         var klingon
-#         beforeEach(function() {
+#         before(:each) do
 #             klingon = new Klingon(2000, 200)
 #             spyOn(klingon, "destroy")
-#             ui.target = klingon
-#             ui.commandParameter = 1000
+#             wg.target = klingon
+#             wg.commandParameter = 1000
 #             spyOn(game, "generator").and.returnValue(0)
 #
-#             game.fire_weapon(ui)
+#             game.fire_weapon(wg)
 #         end
 #
 #         it "reports hit and destroyed" do
@@ -70,12 +73,12 @@ describe "phasers" do
 #     end
 #
 #     describe "when damaging Klingon" do
-#         beforeEach(function() {
-#             ui.target = new Klingon(2000, 200)
-#             ui.commandParameter = 50
+#         before(:each) do
+#             wg.target = new Klingon(2000, 200)
+#             wg.commandParameter = 50
 #             spyOn(game, "generator").and.returnValue(0)
 #
-#             game.fire_weapon(ui)
+#             game.fire_weapon(wg)
 #         end
 #
 #         it "reports damage" do
@@ -91,12 +94,12 @@ describe "phasers" do
 #     end
 #
 #     describe "a defect when firing zero" do
-#         beforeEach(function() {
-#             ui.target = new Klingon(2000, 200)
-#             ui.commandParameter = 0
+#         before(:each) do
+#             wg.target = new Klingon(2000, 200)
+#             wg.commandParameter = 0
 #             spyOn(game, "generator").and.returnValue(0)
 #
-#             game.fire_weapon(ui)
+#             game.fire_weapon(wg)
 #         end
 #
 #         it "reports miscalculated damage!" do

@@ -15,6 +15,15 @@ class WebGadget
 #     },
   end
 
+  def variable(variable_name)
+    #     variable: function(variableName) {
+    #         if(variableName === "target") {
+    #             return this.target;
+    #         }
+    #         throw "Unknown variable " + variableName;
+    #     }
+  end
+
   def parameter(parameter_name)
 #     parameter: function (parameterName) {
 #         if(parameterName === "command") {
@@ -22,12 +31,6 @@ class WebGadget
 #         }
 #         return this.commandParameter;
 #     },
-#     variable: function(variableName) {
-#         if(variableName === "target") {
-#             return this.target;
-#         }
-#         throw "Unknown variable " + variableName;
-#     }
 # };
   end
 end

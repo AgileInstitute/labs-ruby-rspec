@@ -1,9 +1,8 @@
-Klingon = function(initialDistance, initialEnergy) {
-    this.distance = initialDistance || 100 + Math.floor(Math.random() * 4000);
-    this.energy = initialEnergy || 1000 + Math.floor(Math.random() * 2000);
-};
+class Klingon
+  attr_reader :distance, :energy
 
-Klingon.prototype = {
-    destroy: function() {
-    }
-};
+  def initialize(initial_distance = nil, initial_energy = nil)
+    @distance = initial_distance || (100 + rand(4000).floor)
+    @energy = initial_energy || (1000 + rand(2000).floor)
+  end
+end

@@ -1,74 +1,70 @@
-# Game = function() {
-#     this.e = 10000;
-#     this.t = 8;
-#     this.maxPhaserRange = 4000;
-# };
-#
+require "klingon"
+
 class Game
+  MAX_PHASER_RANGE = 4000
+
   attr_reader :e
+  #     this.t = 8;
 
   def initialize
     @e = 10_000
   end
-#     generator: function() {
+#     generator: function() do
 #         return Math.random();
-#     },
-#     randomWithinLimitOf: function(n) {
+#    end,
+#     randomWithinLimitOf: function(n) do
 #         return Math.floor(this.generator() * n);
-#     },
+#    end,
 
   def fire_weapon(wg)
-#     processCommand: function(ui) {
-#         var enemy;
-#         var distance;
-#         var damage;
-#         if(ui.parameter("command") === "phaser") {
-#             var amount = parseInt(ui.parameter("amount"), 10);
-#             enemy = ui.variable("target");
-#             if (this.e >= amount) {
-#                 distance = enemy.distance;
-#                 if (distance > this.maxPhaserRange) {
-#                     ui.writeLine("Klingon out of range of phasers at " + distance + " sectors...");
-#                 } else {
+#         if(wg.parameter("command") == "phaser") do
+            amount = wg.parameter("amount").to_i
+            enemy = wg.variable("target");
+            if @e >= amount
+                distance = enemy.distance;
+                if distance > Game::MAX_PHASER_RANGE
+                    wg.write_line("Klingon out of range of phasers at #{distance} sectors...");
+#                end else do
 #                     damage = amount - (((amount / 20) * distance / 200) + this.randomWithinLimitOf(200));
-#                     if (damage < 1) {
+#                     if (damage < 1) do
 #                         damage = 1;
-#                     }
-#                     ui.writeLine("Phasers hit Klingon at " + distance + " sectors with " + damage + " units");
-#                     if (damage < enemy.energy) {
+#                    end
+#                     wg.write_line("Phasers hit Klingon at " + distance + " sectors with " + damage + " units");
+#                     if (damage < enemy.energy) do
 #                         enemy.energy = enemy.energy - damage;
-#                         ui.writeLine("Klingon has " + enemy.energy + " remaining");
-#                     } else {
-#                         ui.writeLine("Klingon destroyed!");
+#                         wg.write_line("Klingon has " + enemy.energy + " remaining");
+#                    end else do
+#                         wg.write_line("Klingon destroyed!");
 #                         enemy.destroy();
-#                     }
-#                 }
-#                 this.e -= amount;
-#             } else {
+#                    end
+#                end
+                @e -= amount;
+                end
+else
                 wg.write_line("Insufficient energy to fire phasers!")
-#             }
-#         } else if(ui.parameter("command") === "photon") {
-#             enemy = ui.variable("target");
-#             if(this.t > 0) {
+#            end
+#        end else if(wg.parameter("command") == "photon") do
+#             enemy = wg.variable("target");
+#             if(this.t > 0) do
 #                 distance = enemy.distance;
-#                 if ((this.randomWithinLimitOf(4) + ((distance / 500) + 1) > 7)) {
-#                     ui.writeLine("Torpedo missed Klingon at " + distance + " sectors...");
-#                 } else {
+#                 if ((this.randomWithinLimitOf(4) + ((distance / 500) + 1) > 7)) do
+#                     wg.write_line("Torpedo missed Klingon at " + distance + " sectors...");
+#                end else do
 #                     damage = 800 + this.randomWithinLimitOf(50);
-#                     ui.writeLine("Photons hit Klingon at " + distance + " sectors with " + damage + " units");
-#                     if (damage < enemy.energy) {
+#                     wg.write_line("Photons hit Klingon at " + distance + " sectors with " + damage + " units");
+#                     if (damage < enemy.energy) do
 #                         enemy.energy = enemy.energy - damage;
-#                         ui.writeLine("Klingon has " + enemy.energy + " remaining");
-#                     } else {
-#                         ui.writeLine("Klingon destroyed!");
+#                         wg.write_line("Klingon has " + enemy.energy + " remaining");
+#                    end else do
+#                         wg.write_line("Klingon destroyed!");
 #                         enemy.destroy();
-#                     }
-#                 }
+#                    end
+#                end
 #                 this.t--;
-#             } else {
-#                 ui.writeLine("No more photon torpedoes!");
-#             }
-#         }
-#     }
-  end
+#            end else do
+#                 wg.write_line("No more photon torpedoes!");
+#            end
+       end
+    end
+
 end
