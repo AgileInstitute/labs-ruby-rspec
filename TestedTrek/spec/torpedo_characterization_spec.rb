@@ -7,101 +7,101 @@ describe "photon torpedoes" do
       before(:each) do
           @game = Game.new
           @wg = instance_double(WebGadget, write_line: nil )
-          allow(@wg).to receive(:variable).with("target")
+          expect(@wg).to receive(:parameter).with("command").and_return("photon")
       end
 
-#         ui = new UserInterface("photon");
-#         spyOn(ui, "writeLine");
-#         spyOn(game, "generator").and.returnValue(1);
+    it "reports when no torpedoes remain" do
+        # given
+        @game.t = 0
+
+        # when
+        @game.fire_weapon(@wg)
+
+        # then
+        expect(@wg).to have_received(:write_line)
+          .with("No more photon torpedoes!")
+    end
+
+#     describe "when random drift over distance causes torpedo to miss" do
+#         before(:each) do
+#             var distanceWhereRandomFactorsHoldSway = 3000
+#             @wg.target = new Klingon(distanceWhereRandomFactorsHoldSway, 200)
 #
-#     });
+#             @game.fire_weapon(@wg)
+#         end
 #
-#     it ("reports when no torpedoes remain", function() {
-#         // given
-#         game.t = 0;
-#         ui.target = new Klingon();
+#         it "reports torpedo missed" do
+#             expect(@wg).to have_received(:write_line)
+# .with("Torpedo missed Klingon at 3000 sectors...")
+#         end
 #
-#         // when
-#         game.processCommand(ui);
+#         it "reduces torpedoes available" do
+#             expect(@game.t).to equal(7)
+#         end
+#     end
 #
-#         // then
-#         expect(ui.writeLine).toHaveBeenCalledWith("No more photon torpedoes!");
-#     });
+#     describe "how photon always misses when Klingon is quite far away, presumably due to clever evasive actions" do
+#         before(:each) do
+#             var distanceWhereTorpedoesAlwaysMiss = 3500
+#             @wg.target = new Klingon(distanceWhereTorpedoesAlwaysMiss, 200)
 #
-#     describe("when random drift over distance causes torpedo to miss", function() {
-#         beforeEach(function() {
-#             var distanceWhereRandomFactorsHoldSway = 3000;
-#             ui.target = new Klingon(distanceWhereRandomFactorsHoldSway, 200);
+#             @game.fire_weapon(@wg)
+#         end
 #
-#             game.processCommand(ui);
-#         });
+#         it "reports torpedo missed" do
+#             expect(@wg).to have_received(:write_line)
+# .with("Torpedo missed Klingon at 3500 sectors...")
+#         end
 #
-#         it("reports torpedo missed", function() {
-#             expect(ui.writeLine).toHaveBeenCalledWith("Torpedo missed Klingon at 3000 sectors...");
-#         });
+#         it "reduces torpedoes available" do
+#             expect(@game.t).to equal(7)
+#         end
+#     end
 #
-#         it("reduces torpedoes available", function() {
-#             expect(game.t).toBe(7);
-#         });
-#     });
+#     describe "when Klingon destroyed" do
+#         var klingon
+#         before(:each) do
+#             klingon = new Klingon(500, 200)
+#             spyOn(klingon, "destroy")
+#             @wg.target = klingon
 #
-#     describe("how photon always misses when Klingon is quite far away, presumably due to clever evasive actions", function() {
-#         beforeEach(function() {
-#             var distanceWhereTorpedoesAlwaysMiss = 3500;
-#             ui.target = new Klingon(distanceWhereTorpedoesAlwaysMiss, 200);
+#             @game.fire_weapon(@wg)
+#         end
 #
-#             game.processCommand(ui);
-#         });
+#         it "reports Klingon destroyed" do
+#             expect(@wg).to have_received(:write_line)
+# .with("Photons hit Klingon at 500 sectors with 850 units")
+#             expect(@wg).to have_received(:write_line)
+# .with("Klingon destroyed!")
+#         end
 #
-#         it("reports torpedo missed", function() {
-#             expect(ui.writeLine).toHaveBeenCalledWith("Torpedo missed Klingon at 3500 sectors...");
-#         });
+#         it "subtracts a torpedo" do
+#             expect(@game.t).to equal(7)
+#         end
 #
-#         it("reduces torpedoes available", function() {
-#             expect(game.t).toBe(7);
-#         });
-#     });
+#         it "actually destroys Klingon" do
+#             expect(klingon.destroy).toHaveBeenCalled()
+#         end
+#     end
 #
-#     describe("when Klingon destroyed", function() {
-#         var klingon;
-#         beforeEach(function() {
-#             klingon = new Klingon(500, 200);
-#             spyOn(klingon, "destroy");
-#             ui.target = klingon;
+#     describe "when Klingon damaged" do
+#         before(:each) do
+#             @wg.target = new Klingon(500, 2000)
 #
-#             game.processCommand(ui);
-#         });
+#             @game.fire_weapon(@wg)
+#         end
 #
-#         it("reports Klingon destroyed", function() {
-#             expect(ui.writeLine).toHaveBeenCalledWith("Photons hit Klingon at 500 sectors with 850 units");
-#             expect(ui.writeLine).toHaveBeenCalledWith("Klingon destroyed!");
-#         });
+#         it "reports damage" do
+#             expect(@wg).to have_received(:write_line)
+# .with("Photons hit Klingon at 500 sectors with 850 units")
+#             expect(@wg).to have_received(:write_line)
+# .with("Klingon has 1150 remaining")
+#         end
 #
-#         it("subtracts a torpedo", function() {
-#             expect(game.t).toBe(7);
-#         });
-#
-#         it("actually destroys Klingon", function() {
-#             expect(klingon.destroy).toHaveBeenCalled();
-#         });
-#     });
-#
-#     describe("when Klingon damaged", function() {
-#         beforeEach(function() {
-#             ui.target = new Klingon(500, 2000);
-#
-#             game.processCommand(ui);
-#         });
-#
-#         it("reports damage", function() {
-#             expect(ui.writeLine).toHaveBeenCalledWith("Photons hit Klingon at 500 sectors with 850 units");
-#             expect(ui.writeLine).toHaveBeenCalledWith("Klingon has 1150 remaining");
-#         });
-#
-#         it("subtracts a torpedo", function() {
-#             expect(game.t).toBe(7);
-#         });
-#     });
-# });
+#         it "subtracts a torpedo" do
+#             expect(@game.t).to equal(7)
+#         end
+#     end
+# end
 #
 end

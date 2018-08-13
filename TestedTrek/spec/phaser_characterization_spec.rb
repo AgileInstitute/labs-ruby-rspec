@@ -8,7 +8,7 @@ describe "phasers" do
         @game = Game.new
         @energy_before = @game.e
         @wg = instance_double(WebGadget, write_line: nil )
-        allow(@wg).to receive(:variable).with("target")
+        expect(@wg).to receive(:parameter).with("command").and_return("phaser")
     end
 
     it "should complain with insufficient energy when not available" do
