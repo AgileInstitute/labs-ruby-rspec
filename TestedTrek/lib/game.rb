@@ -11,30 +11,36 @@ class Game
   end
 
   def fire_weapon(wg)
-#         if(wg.parameter("command") == "phaser") do
-    amount = wg.parameter("amount").to_i
-    enemy = wg.variable("target")
-    if @e >= amount
-      distance = enemy.distance
-      if distance > Game::MAX_PHASER_RANGE
-        wg.write_line("Klingon out of range of phasers at #{distance} sectors...")
-      else
-        damage = amount - (((amount / 20.0) * distance / 200.0) + rand(200)).to_i
-        if damage < 1
-          damage = 1
-        end
-        wg.write_line("Phasers hit Klingon at #{distance} sectors with #{damage} units")
-        if (damage < enemy.energy)
-          enemy.energy = enemy.energy - damage
-          wg.write_line("Klingon has #{enemy.energy} remaining")
+#         if wg.parameter("command") == "phaser"
+    if true # FIX-ME
+      amount = wg.parameter("amount").to_i
+      enemy = wg.variable("target")
+      if @e >= amount
+        distance = enemy.distance
+        if distance > Game::MAX_PHASER_RANGE
+          wg.write_line("Klingon out of range of phasers at #{distance} sectors...")
         else
-          wg.write_line("Klingon destroyed!");
-          enemy.destroy();
+          damage = amount - (((amount / 20.0) * distance / 200.0) + rand(200)).to_i
+          if damage < 1
+            damage = 1
+          end
+          wg.write_line("Phasers hit Klingon at #{distance} sectors with #{damage} units")
+          if (damage < enemy.energy)
+            enemy.energy = enemy.energy - damage
+            wg.write_line("Klingon has #{enemy.energy} remaining")
+          else
+            wg.write_line("Klingon destroyed!");
+            enemy.destroy();
+          end
         end
+        @e -= amount;
+      else
+        wg.write_line("Insufficient energy to fire phasers!")
       end
-      @e -= amount;
     else
-      wg.write_line("Insufficient energy to fire phasers!")
+    end
+  end
+
 #            end
 #        end else if(wg.parameter("command") == "photon") do
 #             enemy = wg.variable("target");
@@ -57,7 +63,5 @@ class Game
 #            end else do
 #                 wg.write_line("No more photon torpedoes!");
 #            end
-       end
-    end
 
 end

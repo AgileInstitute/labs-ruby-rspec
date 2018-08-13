@@ -1,9 +1,15 @@
-# describe("photons", function() {
-#     var game;
-#     var ui;
-#
-#     beforeEach(function() {
-#         game = new Game();
+require "game"
+require "klingon"
+require "untouchables/web_gadget"
+
+describe "photon torpedoes" do
+
+      before(:each) do
+          @game = Game.new
+          @wg = instance_double(WebGadget, write_line: nil )
+          allow(@wg).to receive(:variable).with("target")
+      end
+
 #         ui = new UserInterface("photon");
 #         spyOn(ui, "writeLine");
 #         spyOn(game, "generator").and.returnValue(1);
@@ -98,3 +104,4 @@
 #     });
 # });
 #
+end
