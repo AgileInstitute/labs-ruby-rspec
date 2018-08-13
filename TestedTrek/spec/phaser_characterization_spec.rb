@@ -74,28 +74,32 @@ describe "phasers" do
         end
     end
 
-#     describe "when damaging Klingon" do
-#         before(:each) do
-#             wg.target = new Klingon(2000, 200)
-#             wg.commandParameter = 50
-#             spyOn(game, "generator").and.returnValue(0)
-#
-#             game.fire_weapon(wg)
-#         end
-#
-#         it "reports damage" do
-#             expect(@wg).to have_received(:write_line)
-  # .with("Phasers hit Klingon at 2000 sectors with 25 units")
-#             expect(@wg).to have_received(:write_line)
-  # .with("Klingon has 175 remaining")
-#         end
-#
-#         it "subtracts energy" do
-#             expect(game.e).toBe(energyBefore - 50)
-#         end
-#     end
-#
-#     describe "a defect when firing zero" do
+    describe "when damaging Klingon" do
+        before(:each) do
+          @klingon = Klingon.new(2000, 200)
+          allow(@wg).to receive(:variable).with("target")
+            .and_return(@klingon)
+
+            allow(@wg).to receive(:parameter).and_return(50)
+            expect(@game).to receive(:rand)
+              .and_return(0)
+
+            @game.fire_weapon(@wg)
+        end
+
+        it "reports damage" do
+            expect(@wg).to have_received(:write_line)
+  .with("Phasers hit Klingon at 2000 sectors with 25 units")
+            expect(@wg).to have_received(:write_line)
+  .with("Klingon has 175 remaining")
+        end
+
+        it "subtracts energy" do
+            expect(@game.e).to equal(@energy_before - 50)
+        end
+    end
+
+#     describe "minimum damage of one - yes taking zero to fire is a bug" do
 #         before(:each) do
 #             wg.target = new Klingon(2000, 200)
 #             wg.commandParameter = 0

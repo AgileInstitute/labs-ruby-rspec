@@ -19,13 +19,13 @@ class Game
       if distance > Game::MAX_PHASER_RANGE
         wg.write_line("Klingon out of range of phasers at #{distance} sectors...")
       else
-        damage = amount - (((amount / 20) * distance / 200) + rand(200))
+        damage = amount - (((amount / 20.0) * distance / 200.0) + rand(200)).to_i
         if damage < 1
           damage = 1
         end
         wg.write_line("Phasers hit Klingon at #{distance} sectors with #{damage} units")
         if (damage < enemy.energy)
-          enemy.energy -= damage
+          enemy.energy = enemy.energy - damage
           wg.write_line("Klingon has #{enemy.energy} remaining")
         else
           wg.write_line("Klingon destroyed!");
