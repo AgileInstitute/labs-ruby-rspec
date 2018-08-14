@@ -4,7 +4,7 @@ class WebGadget
     end
 
     def parameter(parameter_name)
-        @stuff[parameter_name]
+        variable(parameter_name)
     end
 
     def variable(variable_name)

@@ -1,4 +1,4 @@
-require "klingon"
+require_relative "klingon"
 
 class Game
   MAX_PHASER_RANGE = 4000

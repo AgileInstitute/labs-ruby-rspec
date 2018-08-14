@@ -1,11 +1,8 @@
 puts "Simple Star Trek"
 
-$LOAD_PATH.push File.dirname(__FILE__)
-$LOAD_PATH.push File.join(File.dirname(__FILE__), "..")
-
-require "web_gadget"
-require "klingon"
-require "game"
+require_relative "web_gadget"
+require_relative "../klingon"
+require_relative "../game"
 
 game = Game.new()
 wg = WebGadget.new({"command" => "phaser",
