@@ -14,9 +14,4 @@ class WebGadget
     def write_line(message)
       puts(message)
     end
-
-    private
-    def set_value(key, value)
-        @stuff[key] = value
-    end
 end
