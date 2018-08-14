@@ -49,7 +49,7 @@ class Game
             wg.write_line("Photons hit Klingon at #{distance} sectors with #{damage} units")
             if (damage < enemy.energy)
               enemy.energy = enemy.energy - damage
-              wg.write_line("Klingon has " + enemy.energy + " remaining")
+              wg.write_line("Klingon has #{enemy.energy} remaining")
             else
               wg.write_line("Klingon destroyed!")
               enemy.destroy()
@@ -62,6 +62,4 @@ class Game
       end
     end
   end
-
-
 end
