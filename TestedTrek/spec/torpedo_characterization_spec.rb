@@ -2,8 +2,13 @@ require "game"
 require "klingon"
 require "untouchables/web_gadget"
 
-describe "photon torpedoes" do
+shared_examples "a torpedo reducer" do
+  it "reduces torpedoes available" do
+    expect(@game.t).to eq(7)
+  end
+end
 
+describe "photon torpedoes" do
   before(:each) do
     @game = Game.new
     @wg = instance_double(WebGadget, write_line: nil )
@@ -39,9 +44,7 @@ describe "photon torpedoes" do
         .with("Torpedo missed Klingon at 3000 sectors...")
     end
 
-    it "reduces torpedoes available" do
-      expect(@game.t).to eq(7)
-    end
+    it_behaves_like "a torpedo reducer"
   end
 
   describe "how photon always misses when Klingon is quite far away, \
@@ -59,9 +62,7 @@ describe "photon torpedoes" do
         .with("Torpedo missed Klingon at 3500 sectors...")
     end
 
-    it "reduces torpedoes available" do
-        expect(@game.t).to equal(7)
-    end
+    it_behaves_like "a torpedo reducer"
   end
 
   describe "when Klingon destroyed" do
@@ -70,8 +71,8 @@ describe "photon torpedoes" do
       allow(@klingon).to receive(:destroy)
       allow(@wg).to receive(:variable).with("target")
         .and_return(@klingon)
-        allow(@game).to receive(:rand)
-          .and_return(0, 42)
+      allow(@game).to receive(:rand)
+        .and_return(0, 42)
 
       @game.fire_weapon(@wg)
     end
@@ -83,9 +84,7 @@ describe "photon torpedoes" do
         .with("Klingon destroyed!")
     end
 
-    it "subtracts a torpedo" do
-      expect(@game.t).to equal(7)
-    end
+    it_behaves_like "a torpedo reducer"
 
     it "actually destroys Klingon" do
       expect(@klingon).to have_received(:destroy)
@@ -109,8 +108,6 @@ describe "photon torpedoes" do
         .with("Klingon has 1158 remaining")
     end
 
-    it "subtracts a torpedo" do
-      expect(@game.t).to equal(7)
-    end
+    it_behaves_like "a torpedo reducer"
   end
 end
