@@ -20,7 +20,7 @@ class Game
         if distance > Game::MAX_PHASER_RANGE
           wg.write_line("Klingon out of range of phasers at #{distance} sectors...")
         else
-          damage = amount - (((amount / 20.0) * distance / 200.0) + rand(200)).to_i
+          damage = amount - (amount / 20.0 * distance / 200.0 + rand(200)).to_i
           if damage < 1
             damage = 1
           end
@@ -42,7 +42,7 @@ class Game
         if @t > 0
           enemy = wg.variable("target")
           distance = enemy.distance
-          if rand(4) + ((distance / 500) + 1) > 7
+          if rand(4) + distance / 500 + 1 > 7
             wg.write_line("Torpedo missed Klingon at #{distance} sectors...")
           else
             damage = 800 + rand(50)
