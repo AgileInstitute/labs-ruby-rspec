@@ -8,6 +8,7 @@ class Game
 
   def initialize
     @e = 10_000
+    @t = 8
   end
 
   def fire_weapon(wg)
@@ -28,35 +29,36 @@ class Game
             enemy.energy = enemy.energy - damage
             wg.write_line("Klingon has #{enemy.energy} remaining")
           else
-            wg.write_line("Klingon destroyed!");
-            enemy.destroy();
+            wg.write_line("Klingon destroyed!")
+            enemy.destroy()
           end
         end
-        @e -= amount;
+        @e -= amount
       else
         wg.write_line("Insufficient energy to fire phasers!")
       end
     else
-      #        end else if(wg.parameter("command") == "photon") do
-      if @t > 0
-        #             enemy = wg.variable("target");
-      #                 distance = enemy.distance;
-      #                 if ((self.randomWithinLimitOf(4) + ((distance / 500) + 1) > 7)) do
-      #                     wg.write_line("Torpedo missed Klingon at " + distance + " sectors...");
-      #                end else do
-      #                     damage = 800 + self.randomWithinLimitOf(50);
-      #                     wg.write_line("Photons hit Klingon at " + distance + " sectors with " + damage + " units");
-      #                     if (damage < enemy.energy) do
-      #                         enemy.energy = enemy.energy - damage;
-      #                         wg.write_line("Klingon has " + enemy.energy + " remaining");
-      #                    end else do
-      #                         wg.write_line("Klingon destroyed!");
-      #                         enemy.destroy();
-      #                    end
-      #                end
-      #                 self.t--;
-      else
-        wg.write_line("No more photon torpedoes!");
+      if wg.parameter("command") == "photon"
+        if @t > 0
+          enemy = wg.variable("target")
+          distance = enemy.distance
+          if rand(4) + ((distance / 500) + 1) > 7
+            wg.write_line("Torpedo missed Klingon at #{distance} sectors...")
+          else
+            damage = 800 + rand(50)
+            wg.write_line("Photons hit Klingon at #{distance} sectors with #{damage} units")
+            if (damage < enemy.energy)
+              enemy.energy = enemy.energy - damage
+              wg.write_line("Klingon has " + enemy.energy + " remaining")
+            else
+              wg.write_line("Klingon destroyed!")
+              enemy.destroy()
+            end
+         end
+          @t -= 1
+        else
+          wg.write_line("No more photon torpedoes!")
+        end
       end
     end
   end

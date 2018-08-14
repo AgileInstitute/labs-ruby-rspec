@@ -6,4 +6,8 @@ class Klingon
     @distance = initial_distance || (100 + rand(4000).floor)
     @energy = initial_energy || (1000 + rand(2000).floor)
   end
+
+  def destroy
+    raise "scoring feature not yet implemented"
+  end
 end

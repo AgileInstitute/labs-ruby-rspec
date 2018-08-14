@@ -40,7 +40,7 @@ describe "phasers" do
         end
 
         it "still subtracts the energy" do
-            expect(@game.e).to equal(@energy_before - energy_to_fire)
+            expect(@game.e).to eq(@energy_before - energy_to_fire)
         end
     end
 
@@ -66,7 +66,7 @@ describe "phasers" do
         end
 
         it "subtracts energy" do
-            expect(@game.e).to equal(@energy_before - 1000)
+            expect(@game.e).to eq(@energy_before - 1000)
         end
 
         it "really calls destroy" do
@@ -95,7 +95,7 @@ describe "phasers" do
         end
 
         it "subtracts energy" do
-            expect(@game.e).to equal(@energy_before - 50)
+            expect(@game.e).to eq(@energy_before - 50)
         end
     end
 
@@ -119,7 +119,7 @@ describe "phasers" do
         end
 
         it "doesn't subtract that one minimal unit" do
-            expect(@game.e).to equal(@energy_before)
+            expect(@game.e).to eq(@energy_before)
         end
     end
 end
